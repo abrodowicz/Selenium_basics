@@ -1,0 +1,9 @@
+/Pipfile
+.idea/
+.idea/.gitignore
+.idea/Selenium_basics.iml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+/Pipfile.lock
