@@ -49,6 +49,7 @@ class TestSelenium(unittest.TestCase):
         self.driver.find_element(By.ID, 'postcode').send_keys("90001")
         self.driver.find_element(By.ID, 'phone_mobile').send_keys("123456789")
         self.driver.find_element(By.XPATH, '//*[@id="submitAccount"]/span').click()
+        time.sleep(10)
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[1]/a/span[text()="Tester Testowy"]'))
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="columns"]/div[1]/span[2][text()="My account"]'))
         self.driver.find_element(By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[2]/a').click()
