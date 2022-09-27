@@ -17,5 +17,6 @@ To do it follow instructions below:
 1) Open a terminal
 2) Go to location where you want to clone repository code
 3) Run `git clone https://github.com/abrodowicz/Selenium_basics` to clone this repository
-4) Run `cd API_tests` to move to local repository folder
-5) Run command `pipenv shell` to activate the virtual environment
+4) Run `cd Selenium_basics` to move to local repository folder
+5) Install pipenv dependencies with `pipenv install` command
+6) Execute tests with `python3 selenium_tests.py` command

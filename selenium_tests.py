@@ -1,4 +1,5 @@
 import unittest
+import time
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -35,6 +36,7 @@ class TestSelenium(unittest.TestCase):
         self.driver.find_element(By.XPATH, '//a[@title="Log in to your customer account"]').click()
         self.driver.find_element(By.ID, 'email_create').send_keys(random_char(7)+"@gmail.com")
         self.driver.find_element(By.XPATH, '//*[@id="SubmitCreate"]').click()
+        time.sleep(10)
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="columns"]/div[1]/span[2][text()="	Authentication"]'))
         self.driver.find_element(By.ID, 'customer_firstname').send_keys("Tester")
         self.driver.find_element(By.ID, 'customer_lastname').send_keys("Testowy")
@@ -43,10 +45,11 @@ class TestSelenium(unittest.TestCase):
         self.driver.find_element(By.ID, 'city').send_keys("Los Angeles")
         self.driver.find_element(By.XPATH, '//*[@id="id_state"]').click()
         dropdown = Select(self.driver.find_element(By.XPATH, '//*[@id="id_state"]'))
-        dropdown.select_by_value('Alabama')
+        dropdown.select_by_value("1")
         self.driver.find_element(By.ID, 'postcode').send_keys("90001")
         self.driver.find_element(By.ID, 'phone_mobile').send_keys("123456789")
         self.driver.find_element(By.XPATH, '//*[@id="submitAccount"]/span').click()
+        time.sleep(10)
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[1]/a/span[text()="Tester Testowy"]'))
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="columns"]/div[1]/span[2][text()="My account"]'))
         self.driver.find_element(By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[2]/a').click()
