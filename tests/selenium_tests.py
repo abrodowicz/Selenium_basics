@@ -21,7 +21,6 @@ class TestSelenium(unittest.TestCase):
         self.driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
         self.driver.implicitly_wait(5)
         self.driver.get(url="http://automationpractice.com/index.php")
-
         self.header_section = HeaderSection(driver=self.driver)
         self.authentication_page = AuthenticationPage(driver=self.driver)
 
