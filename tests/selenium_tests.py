@@ -4,13 +4,15 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-import random
-import string
+# import random
+# import string
 from selenium.webdriver.support.select import Select
 
 
-def random_char(char_num):
-    return ''.join(random.choice(string.ascii_letters) for _ in range(char_num))
+# def random_char(char_num):
+#     return ''.join(random.choice(string.ascii_letters) for _ in range(char_num))
+from pages.authentication_page import AuthenticationPage
+from pages.header_section import HeaderSection
 
 
 class TestSelenium(unittest.TestCase):
@@ -18,9 +20,12 @@ class TestSelenium(unittest.TestCase):
     def setUp(self) -> None:
         self.driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
         self.driver.implicitly_wait(5)
+        self.driver.get(url="http://automationpractice.com/index.php")
+
+        self.header_section = HeaderSection(driver=self.driver)
+        self.authentication_page = AuthenticationPage(driver=self.driver)
 
     def test_search_by_valid_data(self):
-        self.driver.get(url="http://automationpractice.com/index.php")
         self.driver.find_element(By.ID, "search_query_top").send_keys("Printed dress")
         time.sleep(20)
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="index"]/div[2]/ul/li[5]'))
@@ -29,10 +34,13 @@ class TestSelenium(unittest.TestCase):
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="center_column"]/ul/li[5]'))
 
     def test_registration_with_correct_data(self):
-        self.driver.get(url="http://automationpractice.com/index.php")
-        self.driver.find_element(By.XPATH, '//a[@title="Log in to your customer account"]').click()
-        self.driver.find_element(By.ID, 'email_create').send_keys(random_char(7)+"@gmail.com")
-        self.driver.find_element(By.XPATH, '//*[@id="SubmitCreate"]').click()
+        # Step_1. Click Sign in button on the header of the page
+        self.header_section.click_sign_in_button()
+
+        # Step_2. Submit Create an account form on Authentication page
+        self.authentication_page.sign_in_to_application()
+
+        # Step_3. Submit sign up form
         time.sleep(10)
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="columns"]/div[1]/span[2][text()="	Authentication"]'))
         self.driver.find_element(By.ID, 'customer_firstname').send_keys("Tester")
@@ -46,13 +54,17 @@ class TestSelenium(unittest.TestCase):
         self.driver.find_element(By.ID, 'postcode').send_keys("90001")
         self.driver.find_element(By.ID, 'phone_mobile').send_keys("123456789")
         self.driver.find_element(By.XPATH, '//*[@id="submitAccount"]/span').click()
+
+        # Step_4. Check nickname is displayed on the header of the page
         time.sleep(10)
-        self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[1]/a/span[text()="Tester Testowy"]'))
+        if_nickname_is_presented = self.header_section.check_if_nickname_is_presented()
+        self.assertTrue(if_nickname_is_presented)
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="columns"]/div[1]/span[2][text()="My account"]'))
-        self.driver.find_element(By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[2]/a').click()
+
+        # Step_5. Click logout button on the header of the page
+        self.header_section.click_logout_button()
 
     def test_add_to_cart(self):
-        self.driver.get(url="http://automationpractice.com/index.php")
         self.driver.find_element(By.ID, "search_query_top").send_keys("Dress")
         self.driver.find_element(By.NAME, "submit_search").click()
         self.assertTrue(self.driver.find_element(By.XPATH, '//*[@id="columns"]/div[1]/span[2][text()="Search"]'))
