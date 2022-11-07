@@ -1,16 +1,18 @@
 from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 
 
-class HeaderSection:
+class HeaderSection(BasePage):
 
-    def _init_(self, driver):
-        self.driver = driver
+    __HEADER_SIGNIN_BUTTON = (By.XPATH, '//a[@title="Log in to your customer account"]')
+    __HEADER_NICKNAME_TEXT = (By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[1]/a/span[text()="Tester Testowy"]')
+    __HEADER_LOGOUT_BUTTON = (By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[2]/a')
 
     def click_sign_in_button(self):
-        self.driver.find_element(By.XPATH, '//a[@title="Log in to your customer account"]').click()
+        self.click(by_locator=self.__HEADER_SIGNIN_BUTTON)
 
     def check_if_nickname_is_presented(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[1]/a/span[text()="Tester Testowy"]')
+        return self.get_element(by_locator=self.__HEADER_NICKNAME_TEXT)
 
     def click_logout_button(self):
-        self.driver.find_element(By.XPATH, '//*[@id="header"]/div[2]/div/div/nav/div[2]/a').click()
+        self.click(by_locator=self.__HEADER_LOGOUT_BUTTON)
