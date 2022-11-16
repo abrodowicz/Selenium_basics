@@ -1,4 +1,3 @@
-import time
 import unittest
 
 from selenium import webdriver
@@ -16,7 +15,6 @@ class TestSelenium(unittest.TestCase):
 
     def setUp(self) -> None:
         self.driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
-        self.driver.implicitly_wait(5)
         self.header_section = HeaderSection()
         self.authentication_page = AuthenticationPage()
         self.search_section = SearchSection()
@@ -28,15 +26,15 @@ class TestSelenium(unittest.TestCase):
 
     def test_search_by_valid_data(self):
         # Step_1. Type something in search field on the header of the page
-        self.search_section.search_field().send_keys("Printed dress")
+        self.search_section.fill_search_field(search_phrase="Printed dress")
         # Step_2. Verify that 5 goods are presented in the elastic search dropdown
-        self.assertTrue(self.search_section.search_5th_dropdown_element())
+        self.assertTrue(self.search_section.check_if_dropdown_contains_element(expected_element_count=5))
         # Step_3. Click Search button on the header of the page
         self.search_section.click_search_button()
         # Step_4. Verify that search results block is presented
         self.assertTrue(self.search_page.search_page_title())
         # Step_5. Verify that 5 goods are presented in results block
-        self.assertTrue(self.search_page.search_5th_product())
+        self.assertTrue(self.search_page.check_if_search_block_contains_element(expected_product_count=5))
 
     def test_registration_with_correct_data(self):
         # Step_1. Click Sign in button on the header of the page
@@ -45,15 +43,15 @@ class TestSelenium(unittest.TestCase):
         self.authentication_page.sign_in_to_application()
         # Step_3. Fill in sign up form
         self.assertTrue(self.authentication_page.authentication_page_title())
-        self.sign_up_form.fill_firstname_field()
-        self.sign_up_form.fill_lastname_field()
-        self.sign_up_form.fill_password_field()
-        self.sign_up_form.fill_address1_field()
-        self.sign_up_form.fill_city_field()
+        self.sign_up_form.fill_firstname_field(firstname_value="Tester")
+        self.sign_up_form.fill_lastname_field(lastname_value="Testowy")
+        self.sign_up_form.fill_password_field(password_value="Password123!")
+        self.sign_up_form.fill_address1_field(address_value="PO Box 515381")
+        self.sign_up_form.fill_city_field(city_value="Los Angeles")
         self.sign_up_form.open_state_dropdown()
         self.sign_up_form.choose_dropdown()
-        self.sign_up_form.fill_postcode_field()
-        self.sign_up_form.fill_phone_field()
+        self.sign_up_form.fill_postcode_field(postcode_value="90001")
+        self.sign_up_form.fill_phone_field(phone_value="123456789")
         # Step_4. Submit sign up form
         self.sign_up_form.submit_account_button()
         # Step_5. Check nickname is displayed on the header of the page
@@ -65,7 +63,7 @@ class TestSelenium(unittest.TestCase):
 
     def test_add_to_cart(self):
         # Step_1. Type something in search field on the header of the page
-        self.search_section.fill_search_field("Dress")
+        self.search_section.fill_search_field(search_phrase="Dress")
         # Step_2. Click Search button on the header of the page
         self.search_section.click_search_button()
         # Step_3. Verify that search results block is presented
@@ -83,7 +81,7 @@ class TestSelenium(unittest.TestCase):
         # Step_9. Verify that expanded Cart popup is presented
         self.assertTrue(self.search_section.expanded_cart_popup())
         # Step_10. Verify that 1 good is presented in Cart popup
-        self.assertTrue(self.search_section.cart_popup_product_number())
+        self.assertTrue(self.search_section.check_cart_popup_product_number(1))
         # Step_11. Click Check out button in expanded Cart popup
         self.search_section.click_checkout_cart()
         # Step_12. Verify that shopping-cart summary page is presenting

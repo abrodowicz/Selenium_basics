@@ -16,20 +16,25 @@ class SignUpPage(BasePage):
     __PHONE_FIELD = (By.ID, 'phone_mobile')
     __SUBMIT_ACCOUNT_BUTTON = (By.XPATH, '//*[@id="submitAccount"]/span')
 
-    def fill_firstname_field(self):
-        self.fill(by_locator=self.__FIRSTNAME_FIELD, value="Tester")
+    def fill_firstname_field(self, firstname_value: str) -> None:
+        self.fill(by_locator=self.__FIRSTNAME_FIELD, value=firstname_value)
+        # self.fill(by_locator=self.__FIRSTNAME_FIELD, value="Tester")
 
-    def fill_lastname_field(self):
-        self.fill(by_locator=self.__LASTNAME_FIELD, value="Testowy")
+    def fill_lastname_field(self, lastname_value: str) -> None:
+        self.fill(by_locator=self.__LASTNAME_FIELD, value=lastname_value)
+        # self.fill(by_locator=self.__LASTNAME_FIELD, value="Testowy")
 
-    def fill_password_field(self):
-        self.fill(by_locator=self.__PASSWORD_FIELD, value="Password123!")
+    def fill_password_field(self, password_value: str) -> None:
+        self.fill(by_locator=self.__PASSWORD_FIELD, value=password_value)
+        # self.fill(by_locator=self.__PASSWORD_FIELD, value="Password123!")
 
-    def fill_address1_field(self):
-        self.fill(by_locator=self.__ADDRESS1_FIELD, value="PO Box 515381")
+    def fill_address1_field(self, address_value: str) -> None:
+        self.fill(by_locator=self.__ADDRESS1_FIELD, value=address_value)
+        # self.fill(by_locator=self.__ADDRESS1_FIELD, value="PO Box 515381")
 
-    def fill_city_field(self):
-        self.fill(by_locator=self.__CITY_FIELD, value="Los Angeles")
+    def fill_city_field(self, city_value: str) -> None:
+        self.fill(by_locator=self.__CITY_FIELD, value=city_value)
+        # self.fill(by_locator=self.__CITY_FIELD, value="Los Angeles")
 
     def open_state_dropdown(self):
         self.click(by_locator=self.__STATE_DROPDOWN_ARROW)
@@ -38,11 +43,13 @@ class SignUpPage(BasePage):
         dropdown = Select(self.get_element(by_locator=self.__DROPDOWN_FIELD))
         dropdown.select_by_value("1")
 
-    def fill_postcode_field(self):
-        self.fill(by_locator=self.__POSTCODE_FIELD, value="90001")
+    def fill_postcode_field(self, postcode_value: str) -> None:
+        self.fill(by_locator=self.__POSTCODE_FIELD, value=postcode_value)
+        # self.fill(by_locator=self.__POSTCODE_FIELD, value="90001")
 
-    def fill_phone_field(self):
-        self.fill(by_locator=self.__PHONE_FIELD, value="123456789")
+    def fill_phone_field(self, phone_value: str) -> None:
+        self.fill(by_locator=self.__PHONE_FIELD, value=phone_value)
+        # self.fill(by_locator=self.__PHONE_FIELD, value="123456789")
 
     def submit_account_button(self):
         self.click(by_locator=self.__SUBMIT_ACCOUNT_BUTTON)

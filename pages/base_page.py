@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common import TimeoutException
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
@@ -24,10 +25,17 @@ class BasePage:
         self.driver.get(url)
 
     def get_element(self, by_locator):
-        self.explicitly_wait.until(expected_conditions.presence_of_element_located(by_locator),
+        webelement = self.explicitly_wait.until(expected_conditions.presence_of_element_located(by_locator),
                                    message=f"'{by_locator} element doesn't appear on the page"
                                    )
-        return self.driver.find_element(*by_locator)
+        return webelement
+
+    def if_element_present(self, by_locator) -> bool:
+        try:
+            self.get_element(by_locator)
+            return True
+        except TimeoutException:
+            return False
 
     def click(self, by_locator):
         self.explicitly_wait.until(expected_conditions.element_to_be_clickable(by_locator),
