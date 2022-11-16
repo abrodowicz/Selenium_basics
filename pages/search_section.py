@@ -10,17 +10,17 @@ class SearchSection(BasePage):
     __CART_ICON = (By.XPATH, '//*[@id="header"]/div[3]/div/div/div[3]/div/a')
     __EXPANDED_CARD_POPUP = (By.XPATH, '//*[@id="header"]/div[3]/div/div/div[3]/div/div')
     __CHECKOUT_CART_BUTTON = (By.XPATH, '//*[@id="button_order_cart"]/span')
-    __5TH_DROPDOWN_ELEMENT = (By.XPATH, '//*[@id="index"]/div[2]/ul/li[5]')
-    __CART_POPUP_PRODUCT_NUMBER = (By.XPATH, '//*[@id="header"]/div[3]/div/div/div[3]/div/a/span[1][text()="1"]')
 
-    def search_field(self):
-        return self.get_element(by_locator=self.__SEARCH_FIELD)
+    # dynamic xpaths
+    __DROPDOWN_ELEMENT = (By.XPATH, '//*[@id="index"]/div[2]/ul/li[{index}]')
+    __CART_POPUP_PRODUCT_NUMBER = (By.XPATH, '//*[@id="header"]/div[3]/div/div/div[3]/div/a/span[1][text()="{index}"]')
 
-    def search_5th_dropdown_element(self):
-        return self.get_element(by_locator=self.__5TH_DROPDOWN_ELEMENT)
+    def fill_search_field(self, search_phrase: str) -> None:
+        self.fill(by_locator=self.__SEARCH_FIELD, value=search_phrase)
 
-    def fill_search_field(self, value):
-        self.fill(by_locator=self.__SEARCH_FIELD, value=value)
+    def check_if_dropdown_contains_element(self, expected_element_number: int) -> bool:
+        element_locator = (By.XPATH, self.__DROPDOWN_ELEMENT.format(index=expected_element_number))
+        self.if_element_present(by_locator=element_locator)
 
     def click_search_button(self):
         self.click(by_locator=self.__SEARCH_BUTTON)
@@ -33,11 +33,12 @@ class SearchSection(BasePage):
         action = ActionChains(self.driver)
         action.move_to_element(cartIcon).perform()
 
-    def cart_popup_product_number(self):
-        return self.get_element(by_locator=self.__CART_POPUP_PRODUCT_NUMBER)
+    def check_cart_popup_product_number(self, expected_product_number: int) -> bool:
+        element_locator = (By.XPATH, self.__CART_POPUP_PRODUCT_NUMBER.format(index=expected_product_number))
+        self.if_element_present(by_locator=element_locator)
 
     def expanded_cart_popup(self):
-        return self.get_element(by_locator=self.__EXPANDED_CARD_POPUP)
+        self.if_element_present(by_locator=self.__EXPANDED_CARD_POPUP)
 
     def click_checkout_cart(self):
         self.click(by_locator=self.__CHECKOUT_CART_BUTTON)

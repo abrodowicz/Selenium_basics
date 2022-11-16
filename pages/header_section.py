@@ -12,7 +12,7 @@ class HeaderSection(BasePage):
         self.click(by_locator=self.__HEADER_SIGNIN_BUTTON)
 
     def check_if_nickname_is_presented(self):
-        return self.get_element(by_locator=self.__HEADER_NICKNAME_TEXT)
+        self.if_element_present(by_locator=self.__HEADER_NICKNAME_TEXT)
 
     def click_logout_button(self):
         self.click(by_locator=self.__HEADER_LOGOUT_BUTTON)

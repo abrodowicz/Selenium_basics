@@ -18,4 +18,4 @@ class AuthenticationPage(BasePage):
         self.click(by_locator=self.__CREATE_ACCOUNT_SUBMIT_BUTTON)
 
     def authentication_page_title(self):
-        return self.get_element(by_locator=self.__AUTHENTICATION_PAGE_TITLE)
+        self.if_element_present(by_locator=self.__AUTHENTICATION_PAGE_TITLE)
